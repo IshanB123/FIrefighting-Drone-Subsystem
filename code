@@ -1,0 +1,54 @@
+#include <Servo.h>
+Servo servo1;
+int gasPin = A0; //sets the gas sensor on pin x
+int pos=180; //declare position variable
+int disPin = A2; //set the proximity sensor on pin x
+
+int sprayPin = 5; //set the sprayPin as pin y
+
+
+//gas sensor
+
+int buzPin = 4; //set buzPin to pin y
+
+
+void setup() {
+  // put your setup code here, to run once:
+pinMode(disPin, INPUT);//set disPin  as input
+//digitalWrite(sprayPin, LOW);// turn off spray mechanism
+pinMode (sprayPin, OUTPUT);// set sprayPin as OUTPUT
+servo1.attach(sprayPin);
+servo1.write(180);//intial postion 
+delay(500);// time to get to intial position
+pinMode (A0,INPUT);// set pin x to input
+pinMode(buzPin, OUTPUT); //set buzPin as OUTPUT
+
+}
+
+
+
+void loop() {
+  // put your main code here, to run repeatedly:
+//spray mechanism with Flame sensor
+; int sprayPin = 5; //set the sprayPin as pin y 
+ int disPin = 2; //set the proximity sensor on pin x
+analogRead(disPin);
+if (disPin > 0){// if disPin is > 0 set sprayPin as HIGH{
+  digitalWrite(sprayPin, HIGH);
+  servo1.write(90); //moves to 90 degrees after half a second
+  delay(1000);
+  servo1.write(180);
+}else if (disPin == 0){
+  digitalWrite(sprayPin, LOW);// if disPin is == 0 turn off sprayPin   
+}
+// gas detector
+analogRead(gasPin);
+if (gasPin >500){// check if gasPin is higher than x level{
+  digitalWrite(buzPin, HIGH);// set buzPIN as HIGH
+
+}else if (gasPin <500){//check if gasPin is LOW{
+  digitalWrite(buzPin, LOW);// set buzPin as LOW
+}
+
+
+}
